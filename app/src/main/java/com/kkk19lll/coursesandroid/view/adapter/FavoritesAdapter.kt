@@ -13,12 +13,13 @@ import com.kkk19lll.coursesandroid.utils.FavoritesManager
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class CoursesAdapter(
+class FavoritesAdapter(
     private var courses: List<Course>,
-    private val favoritesManager: FavoritesManager
-) : RecyclerView.Adapter<CoursesAdapter.CourseViewHolder>() {
+    private val favoritesManager: FavoritesManager,
+    private val onRemove: (Course) -> Unit
+) : RecyclerView.Adapter<FavoritesAdapter.FavoriteViewHolder>() {
 
-    class CourseViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class FavoriteViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val title: TextView = view.findViewById(R.id.tvTitleCourse)
         val description: TextView = view.findViewById(R.id.tvDescriptionCourse)
         val price: TextView = view.findViewById(R.id.tvPriseCourse)
@@ -28,12 +29,13 @@ class CoursesAdapter(
         val image: ImageView = view.findViewById(R.id.imageCourse)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CourseViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_course, parent, false)
-        return CourseViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_course, parent, false)
+        return FavoriteViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CourseViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         val course = courses[position]
         holder.title.text = course.title
         holder.description.text = course.text
@@ -41,27 +43,18 @@ class CoursesAdapter(
         holder.rate.text = course.rate.toString()
         holder.date.text = formatDate(course.startDate)
 
-        course.hasLike = favoritesManager.isFavorite(course.id)
-        updateFavoriteButton(holder, course.hasLike)
+        val isFavorite = favoritesManager.isFavorite(course.id)
+        updateFavoriteButton(holder, isFavorite)
 
         holder.favouriteBtn.setOnClickListener {
-            course.hasLike = !course.hasLike
-            if (course.hasLike) {
-                favoritesManager.saveFavorite(course.id)
-            } else {
-                favoritesManager.removeFavorite(course.id)
-            }
-            updateFavoriteButton(holder, course.hasLike)
+            favoritesManager.removeFavorite(course.id)
+            onRemove(course) // вызываем callback во фрагмент
         }
     }
 
-    private fun updateFavoriteButton(holder: CourseViewHolder, isFavorite: Boolean) {
-        holder.favouriteBtn.isSelected = isFavorite
-        if (isFavorite) {
-            holder.favouriteBtn.setColorFilter(holder.itemView.context.getColor(R.color.primary_color))
-        } else {
-            holder.favouriteBtn.setColorFilter(holder.itemView.context.getColor(R.color.white))
-        }
+    private fun updateFavoriteButton(holder: FavoriteViewHolder, isFavorite: Boolean) {
+        val colorRes = if (isFavorite) R.color.primary_color else R.color.white
+        holder.favouriteBtn.setColorFilter(holder.itemView.context.getColor(colorRes))
     }
 
     override fun getItemCount(): Int = courses.size
@@ -71,11 +64,10 @@ class CoursesAdapter(
         notifyDataSetChanged()
     }
 
-    fun formatDate(dateString: String): String {
+    private fun formatDate(dateString: String): String {
         return try {
             val parser = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             val date = parser.parse(dateString)
-
             val formatter = SimpleDateFormat("dd MMMM yyyy", Locale("ru"))
             formatter.format(date!!)
         } catch (e: Exception) {

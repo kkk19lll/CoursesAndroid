@@ -11,6 +11,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kkk19lll.coursesandroid.R
+import com.kkk19lll.coursesandroid.utils.FavoritesManager
 import com.kkk19lll.coursesandroid.view.adapter.CoursesAdapter
 import com.kkk19lll.coursesandroid.viewmodel.CoursesViewModel
 
@@ -36,9 +37,11 @@ class HomeFragment : Fragment() {
     private fun initRecyclerView(view: View) {
         val recyclerView: RecyclerView = view.findViewById(R.id.relativeLayout)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        adapter = CoursesAdapter(emptyList())
+        val favoritesManager = FavoritesManager(requireContext())
+        adapter = CoursesAdapter(emptyList(), favoritesManager)
         recyclerView.adapter = adapter
     }
+
 
     private fun initSortButton(view: View) {
         val sortBtn: ImageButton = view.findViewById(R.id.icoDateAddBtn)
