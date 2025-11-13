@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/black">
 
+    <!-- EditText поиска -->
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@id/filterBtn"
+        android:background="@drawable/bg_input_field"
+        android:drawableStart="@drawable/ico_search"
+        android:drawablePadding="10dp"
+        android:hint="Search courses..."
+        android:inputType="textEmailAddress"
+        android:paddingStart="20dp"
+        android:textColor="@color/white"
+        android:textColorHint="#888" />
+
+    <!-- Кнопка фильтра -->
+    <ImageButton
+        android:id="@+id/filterBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/circle_filter_btn"
+        android:src="@drawable/ico_filter" />
+
+    <!-- TextView "По дате добавления" -->
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="Home"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"/>
+        android:id="@+id/dateAdd"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/filterBtn"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_toStartOf="@id/icoDateAddBtn"
+        android:gravity="center_vertical|right"
+        android:text="По дате добавления"
+        android:textColor="@color/primary_color"
+        android:textStyle="bold" />
+
+    <!-- Кнопка с иконкой даты -->
+    <ImageButton
+        android:id="@+id/icoDateAddBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/filterBtn"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/arrow_down_up" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/icoDateAddBtn"
+        tools:listitem="@layout/item_course" />
 </RelativeLayout>

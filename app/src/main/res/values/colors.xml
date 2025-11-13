@@ -6,4 +6,5 @@
     <color name="background_color_card">#24252A</color>
     <color name="item_selected">#32333A</color>
     <color name="vk_color">#2683ED</color>
+    <color name="transparent">#00000000</color>
 </resources>
