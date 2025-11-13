@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
         android:layout_marginStart="25dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:layout_toStartOf="@id/filterBtn"
         android:background="@drawable/bg_input_field"
@@ -30,7 +30,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/circle_filter_btn"
         android:src="@drawable/ico_filter" />
